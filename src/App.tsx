@@ -616,7 +616,14 @@ function App() {
                 <button
                   onClick={async () => {
                     try {
-                      const response = await fetch('/examples/react-getting-started.md');
+                      // Use the correct path for GitHub Pages with base URL
+                      const basePath = import.meta.env.BASE_URL || '/';
+                      const response = await fetch(`${basePath}examples/react-getting-started.md`);
+                      
+                      if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                      }
+                      
                       const content = await response.text();
                       
                       const blob = new Blob([content], { type: 'text/markdown' });
@@ -630,7 +637,7 @@ function App() {
                       URL.revokeObjectURL(url);
                     } catch (error) {
                       console.error('Error downloading example:', error);
-                      alert('예시 파일을 다운로드할 수 없습니다.');
+                      alert('예시 파일을 다운로드할 수 없습니다. 잠시 후 다시 시도해주세요.');
                     }
                   }}
                   className="flex items-center space-x-2 px-3 py-2 bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200 transition-colors border border-purple-200"

@@ -214,7 +214,21 @@ export default defineConfig({
 });
 ```
 
-### 2. 404 오류 발생
+### 2. 예시 파일 다운로드 404 오류
+
+**원인**: GitHub Pages에서 상대 경로 문제
+
+**해결책**: 코드에서 `import.meta.env.BASE_URL` 사용
+```javascript
+// 올바른 방법
+const basePath = import.meta.env.BASE_URL || '/';
+const response = await fetch(`${basePath}examples/react-getting-started.md`);
+
+// 잘못된 방법
+const response = await fetch('/examples/react-getting-started.md');
+```
+
+### 3. SPA 라우팅 404 오류
 
 **원인**: SPA 라우팅 문제
 
